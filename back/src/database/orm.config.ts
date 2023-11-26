@@ -8,10 +8,10 @@ dotenvConfig({ path: '.env' });
 export const config: TypeOrmModuleOptions = {
   type: 'sqlite',
   database: `${__dirname}/.db/sql`,
-  entities: [__dirname + '/../**/*.entity.{js,ts}'],
-  migrations: [__dirname + '/migrations/*.{js,ts}'],
+  entities: ['dist/**/*.entity{.ts,.js}'],
+  migrations: ['dist/database/migrations/*{.ts,.js}'],
   autoLoadEntities: true,
-  synchronize: true,
+  synchronize: false,
   logging: false,
 };
 
