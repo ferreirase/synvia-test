@@ -25,4 +25,8 @@ export default class UserService {
       where: { email },
     });
   }
+
+  async getUserById(id: number) {
+    return this.userRepository.findOneBy({ id });
+  }
 }

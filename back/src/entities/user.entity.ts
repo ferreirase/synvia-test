@@ -1,6 +1,7 @@
 import CreateUserDto from '@dtos/user/create-user.dto';
 import * as bcrypt from 'bcrypt';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import Task from './task.entity';
 
 @Entity({ name: 'users' })
 export default class User {
@@ -15,6 +16,9 @@ export default class User {
 
   @Column()
   password: string;
+
+  @OneToMany(() => Task, (task) => task.responsible)
+  tasks: Task[];
 
   @Column({ type: 'text', default: () => 'current_timestamp' })
   created_at: string;
