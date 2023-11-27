@@ -8,12 +8,14 @@ import {
   HttpException,
   HttpStatus,
   Param,
+  Patch,
   Post,
   UsePipes,
 } from '@nestjs/common';
 import { CreateTaskSchema } from '@shared/validations/task-schema-validations';
 import { JoiValidationPipe } from '@shared/validations/validation.pipe';
 import TaskService from '@task/task.service';
+import UpdateTaskDto from '../dtos/task/update-task.dto';
 
 @Controller('/tasks')
 export default class TaskController {
@@ -35,6 +37,14 @@ export default class TaskController {
     @Param('taskId') taskId: number,
   ): Promise<any | HttpException> {
     return { task: await this.taskService.getTaskById(taskId) };
+  }
+
+  @Patch('/:taskId')
+  async updateTask(
+    @Param('taskId') taskId: number,
+    @Body() data: UpdateTaskDto,
+  ): Promise<any | HttpException> {
+    return { task: await this.taskService.updateTask(taskId, data) };
   }
 
   @Delete('/:taskId')

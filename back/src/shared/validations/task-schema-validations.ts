@@ -15,7 +15,7 @@ export const CreateTaskSchema = Joi.object()
       .required()
       .error(() => new Error('Tags is invalid')),
     responsibleId: Joi.number()
-      .required()
+      .optional()
       .error(() => new Error('Responsible ID is invalid')),
   })
   .required();
