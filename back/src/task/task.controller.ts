@@ -30,6 +30,13 @@ export default class TaskController {
     return { tasks: await this.taskService.getAllTasks() };
   }
 
+  @Get('/:taskId')
+  async getTaskById(
+    @Param('taskId') taskId: number,
+  ): Promise<any | HttpException> {
+    return { task: await this.taskService.getTaskById(taskId) };
+  }
+
   @Delete('/:taskId')
   @HttpCode(HttpStatus.NO_CONTENT)
   async deleteTask(

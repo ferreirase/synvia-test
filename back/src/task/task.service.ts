@@ -21,6 +21,17 @@ export default class TaskService {
     return tasks;
   }
 
+  async getTaskById(taskId: number) {
+    const taskFound =
+      await this.taskRepository.findOneTaskWithResponsibleInfo(taskId);
+
+    if (!taskFound) throw new HttpException('Task not found', 404);
+
+    taskFound.tags = JSON.parse(taskFound.tags);
+
+    return taskFound;
+  }
+
   async createTask(data: CreateTaskDto) {
     if (!(await this.userService.getUserById(data.responsibleId)))
       throw new HttpException('User not found', 404);

@@ -22,4 +22,20 @@ export class TaskCustomRepository extends Repository<Task> {
       .addSelect(['responsible.id', 'responsible.name', 'responsible.email'])
       .getMany();
   }
+
+  async findOneTaskWithResponsibleInfo(taskId: number) {
+    return await this.createQueryBuilder('task')
+      .select([
+        'task.id',
+        'task.title',
+        'task.description',
+        'task.tags',
+        'task.created_at',
+        'task.updated_at',
+      ])
+      .leftJoin('task.responsible', 'responsible')
+      .addSelect(['responsible.id', 'responsible.name', 'responsible.email'])
+      .where({ id: taskId })
+      .getOne();
+  }
 }
