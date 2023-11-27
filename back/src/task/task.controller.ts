@@ -2,8 +2,12 @@ import CreateTaskDto from '@dtos/task/create-task.dto';
 import {
   Body,
   Controller,
+  Delete,
   Get,
+  HttpCode,
   HttpException,
+  HttpStatus,
+  Param,
   Post,
   UsePipes,
 } from '@nestjs/common';
@@ -22,8 +26,18 @@ export default class TaskController {
   }
 
   @Get('/')
-  @UsePipes(new JoiValidationPipe(CreateTaskSchema))
   async getAllTasks(): Promise<any | HttpException> {
     return { tasks: await this.taskService.getAllTasks() };
+  }
+
+  @Delete('/:taskId')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  async deleteTask(
+    @Param('taskId') taskId: number,
+  ): Promise<any | HttpException> {
+    if (!taskId || !Number(taskId))
+      throw new HttpException('Task ID param is invalid', 400);
+
+    await this.taskService.deleteTask(Number(taskId));
   }
 }

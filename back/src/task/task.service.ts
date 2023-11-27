@@ -27,4 +27,12 @@ export default class TaskService {
 
     return await this.taskRepository.save(await Task.create(data));
   }
+
+  async deleteTask(taskId: number) {
+    const taskFound = await this.taskRepository.findOneBy({ id: taskId });
+
+    if (!taskFound) throw new HttpException('Task not found', 404);
+
+    return await this.taskRepository.delete(taskId);
+  }
 }
